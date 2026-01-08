@@ -1,0 +1,27 @@
+.otp-container {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.otp-input {
+  width: 48px;
+  height: 56px;
+  font-size: 24px;
+  text-align: center;
+  border: 1.5px solid #d0d5dd;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  caret-color: transparent; /* prevents cursor flicker */
+}
+
+.otp-input:focus {
+  border-color: #2563eb; /* blue focus */
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.otp-input:disabled {
+  background-color: #f2f4f7;
+  cursor: not-allowed;
+}

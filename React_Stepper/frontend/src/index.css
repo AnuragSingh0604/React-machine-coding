@@ -1,0 +1,81 @@
+/* Container */
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+.stepper-container {
+  max-width: 600px;
+  margin: 40px auto;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Each step */
+.step {
+  display: flex;
+   
+ margin-bottom: 2rem;
+  position: relative;
+  align-items: center;
+  
+}
+
+/* Step number circle */
+.step-number {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: #bbc2c8;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  justify-content: center;
+  font-weight: bold;
+  flex-shrink: 0;
+  
+}
+
+.step-line{
+height: 2.5rem;
+width: 2px;
+background-color: grey;
+position:absolute;
+top:2.5rem;
+left: 1.25rem; 
+}
+
+
+/* Step label */
+.step-label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+
+/* Step body */
+.step-body {
+  font-size: 14px;
+  color: #555;
+}
+.active{
+  background-color: blue;
+}
+.stepper-controls{
+  display: flex;
+  padding: 5px;
+  justify-content: center;
+  gap:5px;
+  align-items: center;
+}
+.btn{
+  background-color: dodgerblue;
+  color: white;
+  font-size: 25px;
+  border-radius: 5px;
+  padding: 5px;
+
+}
