@@ -1,0 +1,24 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.container{
+  max-width: 600px;
+  margin: 50px auto;
+
+}
+.inner{
+display: flex;
+justify-content: center;
+align-items: center;
+text-align: center;
+}
+.star{
+  font-size: 2.5rem;
+
+}
+
+.active{
+  color: gold;
+}
