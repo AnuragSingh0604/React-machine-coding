@@ -1,0 +1,29 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap:5px;
+}
+.inner{
+  width: 600px;
+  height:500px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+img{
+  width: 100px;
+  height: 300px;
+}
+.pagination-container{
+  width:550px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.page-btn{
+  background-color: black;
+  padding: 5px;
+  color:white;
+  border-radius:5px;
+}
