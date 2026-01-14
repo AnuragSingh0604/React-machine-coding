@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState,useEffect} from 'react'
 import Pagination from './Pagination'
 import axios from 'axios';
@@ -5,11 +7,11 @@ import axios from 'axios';
 
 const Post = () => {
     const [data,setData]=useState([]);
-    const [page,setPage]=(1);
+    const [page,setPage]=useState(1);
     
    async function  fetchData(){
     try{
-           const res= await axios.get('https://picsum.photos/v2/list?page=2&limit=5');
+           const res= await axios.get(`https://picsum.photos/v2/list?page=${page}&limit=5`);
            if(res?.data){
             setData(res.data);
            }
@@ -29,8 +31,8 @@ const Post = () => {
   return (
     <div className='container'>
         <div className='inner'>
-        {data.map(({id,download_url},index)=>{
-            console.log(download_url);
+        {data.map(({id,download_url})=>{
+            
             return <img key={id} src={download_url} alt='image'></img>
         })}
         </div>
