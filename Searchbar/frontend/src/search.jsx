@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react'
+const state={
+  "loading":"LOADING",
+  "error":"ERROR",
+  "success":"SUCCCESS"
+
+}
 
 const Search = () => {
     const [data,setData]=useState([]);
     const [query,setQuery]=useState("");
+    const [status,setStatus]=useState(state.loading);
     useEffect( ()=>{
+      
          const controller = new AbortController();
          async function fetchData(){
             try {
+              setStatus(state.loading);
   const response = await fetch(
     `https://dummyjson.com/products/search?q=${query}&limit=10`,{signal:controller.signal}
   );
@@ -19,12 +28,14 @@ const Search = () => {
 
   
   if(newdata?.products?.length>0){
+    setStatus(state.success);
     setData(newdata.products);
   }
   
 } catch (error) {
   if (error.name !== "AbortError") {
     console.error("Fetch failed:", error);
+    setStatus(state.error);
   }
 }
 
@@ -41,11 +52,13 @@ return ()=>{
   return (
     <div className='container'>
         <input className="input" value={query} onChange={(e)=>setQuery(e.target.value)} type="text" placeholder='serach'></input>
-        <ul className='list'>
-            {data.map((item,index)=>(
-                <li key={index}>{item.title}</li>
-            ))}
-        </ul>
+        { status === state.loading && <h1>Loading...</h1>}
+        {status=== state.error && <h1>Error...</h1>}
+      {status ===state.success && <ul className='list'>
+          {data.map((item,index)=>(
+              <li key={index}>{item.title}</li>
+          ))}
+      </ul>}
     </div>
   )
 }
