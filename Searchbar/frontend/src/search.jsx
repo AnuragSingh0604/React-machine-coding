@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 const state={
   "loading":"LOADING",
   "error":"ERROR",
-  "success":"SUCCCESS"
+  "success":"SUCCESS"
 
 }
 
@@ -28,8 +28,9 @@ const Search = () => {
 
   
   if(newdata?.products?.length>0){
-    setStatus(state.success);
+    
     setData(newdata.products);
+    setStatus(state.success);
   }
   
 } catch (error) {
