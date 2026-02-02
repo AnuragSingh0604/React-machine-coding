@@ -9,7 +9,8 @@ const Post = ({data,pageNo}) => {
             if(targetElement.isIntersecting){
               pageNo((prev)=>prev+1)
             }
-    },{threshold: 0.5})
+    },{threshold: 0.5});
+    
 
 
     obserever.observe(lastImageRef.current);
