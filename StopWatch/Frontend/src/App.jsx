@@ -29,9 +29,14 @@ const App = () => {
     },1000);
        
   }
+  function pauseHandler(){
+   clearInterval(intervalId.current);
+   intervalId.current=null;
+  }
   function stophandler(){
    clearInterval(intervalId.current);
    intervalId.current=null;
+   setBox(prev=>[...prev].fill(0));
   }
   return (
     <>
@@ -51,7 +56,8 @@ const App = () => {
    </div>
    <div className='buttonContainer'>
     <button onClick={()=>starthandler()}>start</button>
-     <button onClick={stophandler}>stop</button>
+     <button onClick={pauseHandler}>pause</button>
+      <button onClick={stophandler}>stop</button>
      </div>
      </>
   )
