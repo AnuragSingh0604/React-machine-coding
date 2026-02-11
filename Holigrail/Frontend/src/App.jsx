@@ -7,6 +7,8 @@ const App = ({ n = 3 }) => {
   );
 const clickRef = useRef([]);
 const indexRef = useRef(0);
+const intervalIdRef=useRef(null);
+
 
 
 
@@ -33,11 +35,7 @@ const indexRef = useRef(0);
 
   const list = clickRef.current;
 
-  if (indexRef.current >= list.length) {
-    clickRef.current = [];
-    indexRef.current = 0;
-    return;
-  }
+  
 
   const { i, j } = list[indexRef.current];
 
@@ -53,17 +51,36 @@ const indexRef = useRef(0);
  useEffect(() => {
   const isAllTrue=grid.every((row)=>(row.every((item)=>item)));
   
- if (!isAllTrue || indexRef.current > 0) return;
+ if (isAllTrue || indexRef.current > 0){
  
 
-    const intervalId= setInterval(() => {
+     intervalIdRef.current= setTimeout(() => {
+      if (indexRef.current >= clickRef.current.length) {
+    clickRef.current = [];
+    indexRef.current = 0;
+    clearTimeout(intervalIdRef.current);
+    return;
+  }
+      
       reverseColoring();
     }, 1000);
 
-    return () => clearInterval(intervalId);
   
-
+    
+  
+  }
 }, [grid]);
+useEffect(()=>{
+
+
+
+
+
+  return ()=>clearTimeout(intervalIdRef.current);
+}
+
+  
+  ,[]);
 
 
   return (
