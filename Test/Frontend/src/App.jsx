@@ -1,60 +1,115 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react'
 
 const App = () => {
-  const [crrStep,setcrrStep]=useState(0);
-  const steps=[{
-    label: "Personal Info",
-    content : <div>Personal Information Content</div>
-  },{
-    label: "Account Info",
-    content : <div>Account Information Content</div>},
-    {
-    label: "Payment Info",
-    content : <div>Payment Information Content</div>}
-    ,{
-    label: "Confirmation Info",
-    content : <div>Confirmation Information Content</div>}
-    ,{
-    label: "Review Info",
-    content : <div>Review Information Content</div>}
-
-];
-function clickHandler(){
-  if(crrStep===steps.length)
-  {
-    return;
-  }
-  setcrrStep((prev)=>prev+1);
-}
-console.log(crrStep);
-  return (
-    <div className='mainContainer'>
-      
-        <div className='labelContainer'>
-          {
-        steps.map((item, index) => {
-  return (
-   <div
- 
-  className="step"
-  key={index}
->
-
-      <div  className={`circle ${(index+1 <= crrStep) && "active"}`}>{index + 1}</div>
-
-      <p className="text">{item.label}</p>
-
-      {index !== steps.length - 1 && <div className={`line ${(index+1 <= crrStep) && "active"}`}></div>}
-    </div>
-  );
-})
-
+  const [loading,setLoading]=useState(false);
+  const [data,setData]=useState(()=>[]);
+  const [index,setIndex]=useState(0);
+  const intervalRef=useRef(null);
+  useEffect(()=>{
+    async function  fetchData(){
+      try{
+        setLoading(true);
+        const res=await fetch("https://picsum.photos/v2/list?page=1&limit=5");
+        if(!res.ok){
+          throw new Error("error in fetching image");
+        }
+        const newData=await res.json();
+      if(newData && newData.length > 0){
+        setData(newData.map(item=>item.download_url));
       }
-      <button className='btn' onClick={clickHandler}>next</button>
-        </div>
-        <div style={{width:"50%" , height:" 40vh",backgroundColor:"gray",display:"flex", alignItems:"center", justifyContent:"center" ,fontSize:"25px"}}>{ crrStep>0 && steps[crrStep-1].content}</div>
+      else{
+        throw new Error("something went wrong");
+      }
+
       
+
+    }
+    catch(e){
+    console.error("Fetch failed:", e.message);
+  }
+  finally{
+setLoading(false);
+  }
+  }
+    fetchData();
+
+  },[])
+  function clickNextHandler(){
+    if(data.length===0){
+      return;
+    }
+    if(intervalRef.current){
+      clearInterval(intervalRef.current);
+      intervalRef.current=null;
+    }
+    
+    setIndex(prev=>{
+      if(prev>=data.length-1){
+        return 0;
+      }
+      else{
+        return prev+1;
+      }
+    });
+     
+  }
+  function startInterval() {
+
+  if(data.length === 0) return;
+
+  // Always clear existing interval first
+  if(intervalRef.current) {
+    clearInterval(intervalRef.current);
+  }
+
+  intervalRef.current = setInterval(() => {
+
+    setIndex(prev =>
+      prev >= data.length - 1 ? 0 : prev + 1
+    );
+
+  }, 1000);
+}
+  function clickPrevHandler(){
+    if(data.length===0){
+      return;
+    }
+    if(intervalRef.current){
+      clearInterval(intervalRef.current);
+      intervalRef.current=null;
+       
+    }
+    setIndex(prev=>Math.max(prev-1,0));
+    
+    
+
+  }
+  function stopInerval(){
+    clearInterval(intervalRef.current);
+      intervalRef.current=null;
+      return;
+
+  }
+
+  useEffect(()=>{
+    startInterval()
+   
+    return ()=>{
+     return stopInerval();
+     
+
+    }
+     
+  },[data.length])
+
+  return (
+    !loading &&
+    <div onMouseEnter={stopInerval} onMouseLeave={startInterval} className='container'>
+      
+      <img src={data[index]}></img>
+      <button  onClick={clickPrevHandler} className='prev'>{"<"}</button>
+      <button onClick={clickNextHandler} className='next'>{">"}</button>
+
     </div>
   )
 }
