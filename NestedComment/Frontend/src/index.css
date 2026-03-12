@@ -1,0 +1,43 @@
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+
+}
+.commentContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  
+
+}
+.comment{
+  border: 1px solid black;
+  padding: 3px;
+  text-align: center;
+  font-size: 16px;
+  color: gray;
+}
+.btnContainer{
+  display: flex;
+  gap: 3px;
+
+}
+.btn{
+  background-color: deepskyblue;
+  border-radius: 5px;
+  padding: 5px;
+}
+.replyBox{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.replyBox .btn {
+  width: 30%;
+}
