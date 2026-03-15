@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import ReplyBox from './ReplyBox'
 
-const CommentBox = ({comment,allComments}) => {
+const CommentBox = ({comment,allComments,addComment,deleteComment}) => {
   const [reply,setReply]=useState(false);
   function postHandler(replyText,setReplyText){
+    addComment(replyText,comment.id);
     setReplyText("");
-    setReply(!reply);
+    setReply(false);
 
   }
   return (
@@ -13,17 +14,19 @@ const CommentBox = ({comment,allComments}) => {
         <div className='commentContainer'>
             <p className='comment'>{comment.text}</p>
             <div onClick={()=>setReply(!reply)} className='btnContainer'><button className='btn'>{reply ?"cancel" : "reply"}</button>
-            <button className='btn'>delete</button></div>
+            <button onClick={()=>deleteComment(comment.id)} className='btn'>delete</button></div>
         </div>
-        {reply && <ReplyBox postHandler={postHandler}></ReplyBox>
+        {reply && <ReplyBox addComment={addComment} postHandler={postHandler}></ReplyBox>
 }
 <div className="nestedComment">
   {
-    comment.children.map(id => (
+    comment.children?.map(id => (
       <CommentBox
         key={id}
         comment={allComments[id]}
         allComments={allComments}
+        addComment={addComment}
+        deleteComment={deleteComment}
       />
     ))
   }
