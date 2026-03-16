@@ -17,3 +17,24 @@
   object-fit: cover;
   border-radius: 6px;
 }
+.paginationContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+button{
+  border: 1px solid black;
+  border-radius:5px ;
+  padding: 2px;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+}
+.active{
+  box-shadow: 3px;
+  height: 55px;
+  width: 55px;
+  border: 3px solid rgb(145, 30, 30);
+}
