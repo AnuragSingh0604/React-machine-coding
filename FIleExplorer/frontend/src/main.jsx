@@ -2,9 +2,12 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
+import FileExplorerProvider from "./Context/FileExplorerContext.jsx"
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+     <FileExplorerProvider>
     <App />
-  </StrictMode>,
+    </FileExplorerProvider>
+  </StrictMode>
 )
