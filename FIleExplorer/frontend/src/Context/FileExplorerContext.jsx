@@ -7,7 +7,35 @@ const FileExplorerProvider = ({ children }) => {
     
   const [nodes, setNodes] = useState(data.items);
 
-  
+  function editNode(value, id) {
+  if (!value || !id) return;
+
+  const type = value.includes(".") ? "file" : "folder";
+
+  setNodes(prev => {
+    if (!prev[id]) return prev;
+
+    // ❌ Restrict: root cannot be file
+    if (prev[id].parentId === null && type === "file") {
+      
+      return prev;
+    }
+
+    const updatedNodes = { ...prev };
+
+    updatedNodes[id] = {
+      ...updatedNodes[id],
+      name: value,
+      type,
+      children:
+        type === "folder"
+          ? updatedNodes[id].children || []
+          : []
+    };
+
+    return updatedNodes;
+  });
+}
   function deleteNode(id) {
   setNodes(prev => {
     const newNodes = { ...prev };
@@ -65,7 +93,7 @@ function addNode(value,parentId=null){
 }
 
   return (
-    <FileContext.Provider value={{ nodes, addNode,deleteNode }}>
+    <FileContext.Provider value={{ nodes, addNode,deleteNode,editNode }}>
       {children}
     </FileContext.Provider>
   );
