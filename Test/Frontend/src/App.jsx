@@ -1,48 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import Pagination from './Pagination'
+import React, { useState } from "react";
 
-const App = () => {
-  const [page,setPage]=useState(1);
-  const [imageData,setImagedata]=useState([]);
-  async function fetchHandler(){
-    try{
-    const res= await fetch(`https://picsum.photos/v2/list?page=${page}&limit=5`);
-    if(!res.ok){
-      throw new Error("erron in fetching image");
-    }
-    const data=await res.json();
-    if(data && data.length>0){
-      setImagedata(data);
-    }
-    else{
-      throw new Error("something went wrong ");
-    }
-  }
-  catch(err){
-    alert(err);
-  }
-   
+const App = ({ n = 5 }) => {
+  const [crrIndex, setCrrIndex] = useState(-1);
+  const [hoverIndex, setHoverIndex] = useState(-1);
 
-  }
-  
-  useEffect(()=>{
-    fetchHandler();
-
-  },[page])
   return (
-    <div className='container'>
-      <div className='imageContainer'>
-        {
-          imageData.map((item,index)=><img key={item.id} src={item.download_url}></img>)
-        }
+    <div style={{ display: "flex", justifyContent: "center", gap: "5px", fontSize: "30px" }}>
+      {[...Array(n)].map((_, index) => {
+        const activeIndex = hoverIndex >= 0 ? hoverIndex : crrIndex;
 
-      </div>
-
-
-<Pagination page={page} setPage={setPage}></Pagination>
-
+        return (
+          <span
+            key={index}
+            onMouseEnter={() => setHoverIndex(index)}
+            onMouseLeave={() => setHoverIndex(-1)}
+            onClick={() => setCrrIndex(index)}
+            style={{
+              cursor: "pointer",
+              color: index <= activeIndex ? "gold" : "gray"
+            }}
+          >
+            {index <= activeIndex ? "★" : "☆"}
+          </span>
+        );
+      })}
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
