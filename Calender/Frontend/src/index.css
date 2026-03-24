@@ -1,0 +1,46 @@
+*{
+  box-sizing: border-box;
+  
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+.slot{
+  width: 80%;
+ border-bottom: 1px solid black;
+  height: 5rem;
+  display: flex;
+  z-index: 1;
+  
+  align-items: center;
+  position: relative;
+}
+.slot span{
+  margin: 10px;
+  width: 100px;
+}
+.line{
+  position: absolute;
+  left: 110px;
+  top: 0;
+  height: 100%;
+  border-left: 2px solid black;
+}
+.event{
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  position: absolute;
+  left:25%;
+  gap:250px;
+  width: 60%;
+}
+.timeContainer{
+  
+}
+
