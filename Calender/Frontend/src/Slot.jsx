@@ -3,7 +3,7 @@ import React from 'react'
 const Slot = ({item}) => {
   return (
     <div className='slot'>
-    <span>{item}:00</span>
+    <span>{String(item).padStart(2, "0")}:00</span>
      <div className='line'></div>
 
 

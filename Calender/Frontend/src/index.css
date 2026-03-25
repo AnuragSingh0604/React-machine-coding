@@ -41,6 +41,11 @@
   width: 60%;
 }
 .timeContainer{
+  display: flex;
+  width: 30%;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   
 }
 

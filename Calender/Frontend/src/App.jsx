@@ -8,7 +8,7 @@ const App = () => {
   return (
     <div className='container'>
       {
-        totalSlot.map((item,index)=><Slot item={item}></Slot>)
+        totalSlot.map((item,index)=><Slot  key={index} item={item}></Slot>)
       }
       {
         data.map((event,index)=><Event key={event.id} event={event}></Event>)
