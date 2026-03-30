@@ -1,31 +1,44 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-const App = ({ n = 5 }) => {
-  const [crrIndex, setCrrIndex] = useState(-1);
-  const [hoverIndex, setHoverIndex] = useState(-1);
+const arr = Array.from({ length: 50 }, (_, index) => index + 1);
+
+const App = ({ height = 300, width = 400, itemHeight = 30 }) => {
+  const [startIndex, setStartIndex] = useState(0);
+  const OVERSCAN = 3;
+
+  const visibleCount = Math.ceil(height / itemHeight);
+
+  const from = Math.max(0, startIndex - OVERSCAN);
+  const to = Math.min(arr.length, startIndex + visibleCount + OVERSCAN);
+
+  const res = arr.slice(from, to);
+  
+ 
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", gap: "5px", fontSize: "30px" }}>
-      {[...Array(n)].map((_, index) => {
-        const activeIndex = hoverIndex >= 0 ? hoverIndex : crrIndex;
-
-        return (
-          <span
-            key={index}
-            onMouseEnter={() => setHoverIndex(index)}
-            onMouseLeave={() => setHoverIndex(-1)}
-            onClick={() => setCrrIndex(index)}
-            style={{
-              cursor: "pointer",
-              color: index <= activeIndex ? "gold" : "gray"
-            }}
-          >
-            {index <= activeIndex ? "★" : "☆"}
-          </span>
-        );
-      })}
-    </div>
+    <div
+     
+      style={{ height, width, border: "1px solid black", overflowY: "auto" }}
+    >
+      <div style={{ height: arr.length * itemHeight }}>
+       
+          {res.map((item, index) => (
+            <div
+              key={from + index}
+              style={{
+                height: itemHeight,
+                backgroundColor: "orange",
+                borderBottom: "1px solid black",
+                textAlign: "center"
+              }}
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+      </div>
+    
   );
-};
+}
 
 export default App;

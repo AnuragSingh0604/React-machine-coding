@@ -45,7 +45,7 @@ const Column = ({item,setdata,dragRef}) => {
 
     
   return (
-    <div onDrop={()=>dropHandler(item.id)} onDragOver={(e)=>e.preventDefault()}className='column'>
+    <div onDrop={()=>dropHandler(item.id)} onDragOver={(e)=>e.preventDefault()} className='column'>
         <span>{item.title}</span>
         {
             item.task.map((task,index)=><div  onDragStart={(e)=>dragStartHandler(e,task,item.id)} 
