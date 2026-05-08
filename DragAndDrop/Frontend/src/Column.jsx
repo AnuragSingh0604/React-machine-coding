@@ -1,59 +1,89 @@
-import React,{useRef} from 'react'
+import React from 'react'
 
-const Column = ({item,setdata,dragRef}) => {
-    
+const Column = ({ item, dragRef, setData }) => {
 
-    function dragStartHandler(e,task,sourceColumn){
+  function dragStartHandler(e, id, t) {
+    e.target.style.opacity = 0.5;
 
-        e.target.style.opacity="0.5";
-        dragRef.current[0]=task;
-        dragRef.current[1]=sourceColumn;
+    dragRef.current[0] = id;
+    dragRef.current[1] = t;
+  }
 
-
+  function dropHandler(itemid) {
+    if(itemid===dragRef.current[0]){
+      return;
     }
-    function dropHandler(targetColumnId) {
-  const task = dragRef.current[0];
-  const sourceColumn = dragRef.current[1];
 
-  if (!task || !sourceColumn) return;
+   
 
-  // Optional: prevent same column duplicate behavior
-  if (sourceColumn === targetColumnId) return;
+    setData((p) => {
 
-  setdata(prev => ({
-    ...prev,
-    columns: {
-      ...prev.columns,
+      let newData = {
+        ...p,
+        columns: {
+          ...p.columns,
+           [dragRef.current[0]]:{
+            ...p.columns[dragRef.current[0]],
+            task:p.columns[dragRef.current[0]].task.filter((t)=>t!==dragRef.current[1])
+          },
 
-      [sourceColumn]: {
-        ...prev.columns[sourceColumn],
-        task: prev.columns[sourceColumn].task.filter(
-          t => t !== task
-        )
-      },
+          [itemid]: {
+            ...p.columns[itemid],
 
-      [targetColumnId]: {
-        ...prev.columns[targetColumnId],
-        task: [
-          ...prev.columns[targetColumnId].task,
-          task
-        ]
-      }
-    }
-  }));
-}
-
-    
-  return (
-    <div onDrop={()=>dropHandler(item.id)} onDragOver={(e)=>e.preventDefault()} className='column'>
-        <span>{item.title}</span>
-        {
-            item.task.map((task,index)=><div  onDragStart={(e)=>dragStartHandler(e,task,item.id)} 
-            onDragEnd={(e)=>e.target.style.opacity="1"} className="task"  draggable key={index}>{task}
-            </div>)
+            task: [
+              ...p.columns[itemid].task,
+              dragRef.current[1]
+            ]
+          }
+          
+         
         }
+      };
+
+      return newData;
+    });
+  }
+
+  return (
+    <div
+      className='column'
+
+      onDragOver={(e) => {
+        e.preventDefault();
+      }}
+
+      onDrop={(e) => {
+        e.preventDefault();
+        dropHandler(item.id);
+      }}
+    >
+
+      <span>{item.title}</span>
+
+      {
+        item.task.map((t, id) => (
+
+          <p
+            key={id}
+            className='task'
+
+            draggable={true}
+
+            onDragStart={(e) => {
+              dragStartHandler(e, item.id, t)
+            }}
+
+            onDragEnd={(e) => {
+              e.target.style.opacity = 1
+            }}
+          >
+            {t}
+          </p>
+        ))
+      }
+
     </div>
   )
 }
 
-export default Column;
+export default Column
