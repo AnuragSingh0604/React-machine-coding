@@ -1,0 +1,15 @@
+.container{
+  display: flex;
+  justify-content: center;
+}
+.efffect{
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+h1{
+  color:red
+}
+p{
+  color:gray;
+}
