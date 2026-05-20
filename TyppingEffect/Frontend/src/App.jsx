@@ -6,7 +6,7 @@ const App = () => {
   
   return (
     <div className='container'>
-      <Effect text={Text} delay={500}></Effect>
+      <Effect text={Text} delay={120}></Effect>
 
     </div>
   )
