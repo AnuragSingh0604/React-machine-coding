@@ -12,14 +12,33 @@ const App = () => {
 
 
   }
-  console.log(file);
+  function deleteHandler(item){
+    if(!item)
+      return;
+    setFiles((prev)=>{
+      const newdata=prev.filter((data,index)=>data.name!==item.name);
+      return newdata;
+
+    })
+
+  }
+  function draghandler(e){
+   
+    let data=Array.from(e.dataTransfer.files);
+  if(data && data.length>0){
+    setFiles(prev => [...prev, ...data]);
+  }
+  }
+ 
   return (
     <div className='container'>
       <h1>File uploader</h1>
-     <Subcontainer hanlder={inputHandler}></Subcontainer>
+     <Subcontainer dragHandler={ draghandler}hanlder={inputHandler}></Subcontainer>
+     <div className='previewContainer'>
      {
-      file.map((item,index)=> <Preview key={index} item={item} ></Preview>)
+      file.map((item,index)=> <Preview Delete={deleteHandler} key={index} item={item} ></Preview>)
      }
+     </div>
      
     </div>
   )
