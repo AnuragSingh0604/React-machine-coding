@@ -12,16 +12,29 @@ const App = ({ size = 3 }) => {
   const [molePos, setMolePos] = useState(
     getRandomPosition(size)
   );
+ const [score,setScore]=useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setMolePos(getRandomPosition(size));
+      setMolePos(prev => {
+  let next;
+
+  do {
+    next = getRandomPosition(size);
+  } while (
+    next.row === prev.row &&
+    next.col === prev.col
+  );
+
+  return next;
+});
     }, 1000);
 
     return () => clearInterval(timer);
   }, [size]);
 
   return (
+    <>
     <div
       className="grid"
       style={{
@@ -31,15 +44,18 @@ const App = ({ size = 3 }) => {
       {Array.from({ length: size }).map((_, i) =>
         Array.from({ length: size }).map((_, j) => (
           <Cell
-            key={`${i}${j}`}
+            key={`${i}-${j}`}
             isMole={
               molePos.row === i &&
               molePos.col === j
             }
+            Score={setScore}
           />
         ))
       )}
     </div>
+    <h1>score: {score}</h1>
+    </>
   );
 };
 
