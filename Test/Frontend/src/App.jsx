@@ -1,67 +1,72 @@
-import React, { useState,useRef } from 'react'
+import React, { useState ,useRef, useEffect} from 'react';
+import Cell from './components/Cell';
 
-const arr = Array.from({ length: 50 }, (_, index) => index + 1);
 
-const App = ({ height = 300, width = 400, itemHeight = 30 }) => {
-  const [startIndex, setStartIndex] = useState(0);
-  const rafIdRef=useRef(null);
-  const OVERSCAN = 3;
-
-  const visibleCount = Math.ceil(height / itemHeight);
-
-  function scrollHandler(e) {
-    if (rafIdRef.current) return;
-
-    const scrollTop = e.target.scrollTop;
-
-    rafIdRef.current = requestAnimationFrame(() => {
-      const nextIndex = Math.min(
-        arr.length - visibleCount,
-        Math.floor(scrollTop / itemHeight)
-      );
-     
-      setStartIndex(nextIndex);
-      rafIdRef.current = null;
-    });
-  }
-
-  const from = Math.max(0, startIndex - OVERSCAN);
-  const to = Math.min(arr.length, startIndex + visibleCount + OVERSCAN);
-
-  const res = arr.slice(from, to);
-  const yOffset = from * itemHeight;
+const App = ({size=5}) => {
   
+  const [arr, setArr] = useState(() => new Array(size).fill(''));
  
+  const refIndex=useRef([]);
+  useEffect(()=>{
+    refIndex.current[0]?.focus();
 
-  return (
-    <div
-     onScroll={scrollHandler}
-      style={{ height, width, border: "1px solid black", overflowY: "auto" }}
-    >
-      <div style={{ height: arr.length * itemHeight }}>
-        <div  style={{
-            transform: `translateY(${yOffset}px)`,
-            willChange: "transform" 
-          }}>
-       
-          {res.map((item, index) => (
-            <div
-              key={from + index}
-              style={{
-                height: itemHeight,
-                backgroundColor: "orange",
-                borderBottom: "1px solid black",
-                textAlign: "center"
-              }}
-            >
-              {item}
-            </div>
-          ))}
-          </div>
-        </div>
-      </div>
+  },[])
+  function setHandler(value,i){
+    value=value.slice(-1);
+    const check=/^[0-9]$/.test(value);
+
+    if(check){
+      setArr((p)=>{
+        let newArray=[...p];
+        newArray[i]=value;
+        return newArray
+
+      })
+      refIndex.current[Math.min(i+1,refIndex.current.length-1)].focus();
+    }
+
+
+
+
+  }
+  function keydownHandler(e,i){
     
-  );
+    if(e.key=="Backspace"){
+       if(arr[i]){
+        setArr((p)=>{
+        let newArray=[...p];
+        newArray[i]='';
+        return newArray
+
+      })
+     
+
+       }
+       else{
+        refIndex.current[Math.max(i-1,0)].focus();
+  
+
+       }
+       return;
+       
+    }
+    if(e.key=="ArrowRight")
+    refIndex.current[Math.min(i+1,refIndex.current.length-1)].focus();
+  if(e.key=="ArrowLeft")
+    refIndex.current[Math.max(i-1,0)].focus();
+  
+
+    
+
+  }
+  
+  return (
+    <div className='container'>
+      {
+        arr.map((item,index)=><Cell  keydownHandler={keydownHandler}data={item} handler={setHandler} inputRef={refIndex} i={index} key={index}></Cell>)
+      }
+    </div>
+  )
 }
 
-export default App;
+export default App
