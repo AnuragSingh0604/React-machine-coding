@@ -1,70 +1,88 @@
-import React, { useEffect, useState ,useRef} from "react";
+import React, { useEffect, useState ,useMemo} from 'react'
+function pageGenerator(pageNo,){
+  const prevThreeNoArr=Array.from(
+    {length:3},
+    (_,index)=>pageNo-1-index
+  ).filter(item=>item>0).reverse();
+  const nextFourPage=Array.from({length:4},(_,index)=>pageNo+index);
+  const res=[...prevThreeNoArr,...nextFourPage];
+  return res;
+
+
+}
 
 const App = () => {
-  const [data, setData] = useState([]);
-  const [index, setIndex] = useState(0);
-  const intervalId=useRef(null);
-
-  const prevHandler = () => {
-     if(data.length===0) return;
-    
-    setIndex((prev) => (prev === 0 ? data.length - 1 : prev - 1));
-  };
-
-  const nextHandler = () => {
-     if(data.length===0) return;
-    setIndex((prev) => (prev === data.length - 1 ? 0 : prev + 1));
-  };
-  const startInterval = () => {
-   if(data.length===0) return;
-  clearInterval(intervalId.current);
-  intervalId.current = setInterval(nextHandler, 1000);
-};
-const stopInterval = () => {
-  clearInterval(intervalId.current);
-  intervalId.current = null;
-};
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(
-          "https://picsum.photos/v2/list?page=1&limit=5"
-        );
-        const result = await response.json();
-
-        setData(result.map((item) => item.download_url));
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchData();
-  }, []);
+  const [data,setData]=useState([]);
+ 
+  const [currentPage,setCurrentPage]=useState(1);
+  const pageArray = useMemo(
+    () => pageGenerator(currentPage),
+    [currentPage]
+);
   useEffect(()=>{
-    if(data.length===0){
-      return;
-    }
-     startInterval();
-    return ()=>(stopInterval);
+    async function fetchData(){
+      try{
+        const res= await fetch( `https://picsum.photos/v2/list?page=${currentPage}&limit=5`)
+        const Data=  await res.json();
+        if(Data){
+          setData(Data.map((item,index)=>(item.download_url)))
+        }
+        
 
-  },[data.length])
+      }
+      catch(err){
+        console.log(err);
+      }
+      
+
+
+    }
+    fetchData()
+
+  },[currentPage])
+  function prevHandler(){
+    setCurrentPage((prev)=>Math.max(1,prev-1));
+  }
+  function nextHandler(){
+    setCurrentPage((prev)=>prev+1);
+  }
 
   return (
-    <div onMouseEnter={()=>stopInterval()} onMouseLeave={startInterval }className="container">
-      {data.length > 0 && (
-        <img src={data[index]} alt={`Slide ${index + 1}`} />
-      )}
+    <div className='container'>
+     <div className='imgContainer'>
+      {
+       data.map((item,index)=><img src={item} key={index}></img>)
+      }
+     </div>
+<div
+  style={{
+    display: "grid",
+    width: "80%",
+    gap: "3px",
+    gridTemplateColumns: `repeat(${pageArray.length + 1}, 1fr)`,
+    
+  }}
+  className="pageContainer"
+>      
+      
+       <button
+    disabled={currentPage === 1}
+    onClick={prevHandler}
+>
+    &lt;
+</button>
+      
+      {
+         pageArray.map((item,index)=><button className={item===currentPage?"active":""}onClick={()=>setCurrentPage(item)}>{item}</button>)
+      }
+       {
+       <button onClick={nextHandler} >&gt;</button>
+      }
+     </div>
 
-      <button onClick={prevHandler} className="btnLeft">
-        &lt;
-      </button>
 
-      <button onClick={nextHandler} className="btnRight">
-        &gt;
-      </button>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
