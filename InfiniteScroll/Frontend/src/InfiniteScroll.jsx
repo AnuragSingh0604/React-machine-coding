@@ -46,6 +46,7 @@ const InfiniteScroll = () => {
     <>
    <>
   <Post data={data} pageNo={setPage} />
+  
 
   <div className="status">
     {state === status.loading && <p>Loading more...</p>}
