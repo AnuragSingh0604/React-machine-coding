@@ -1,0 +1,35 @@
+.container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+button{
+  color: white;
+  background-color: rgb(84, 84, 205);
+  border: none;
+  margin-bottom: 10px;
+}
+.modal {
+  position: relative;
+  width: 300px;
+  border: 1px solid black;
+  padding: 20px;
+}
+
+.cross {
+  position: absolute;
+
+  top: -15px;
+  right: -15px;
+
+  width: 30px;
+  height: 30px;
+
+  background-color: gray;
+  color: black;
+  border: 1px solid black;
+  border-radius: 50%;
+
+  cursor: pointer;
+}
