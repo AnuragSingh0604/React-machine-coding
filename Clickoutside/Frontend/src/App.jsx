@@ -5,7 +5,9 @@ const App = () => {
   const [show,setShow]=useState(false);
   return (
     <div className='container'>
-      <button onClick={()=>setShow(!show)} >show Modal</button>
+<button onClick={() => setShow(true)}>
+  Show Modal
+</button>
       {show &&  <Modal setShow={setShow}/>}
      
 
