@@ -16,6 +16,7 @@ const Modal = ({ setShow }) => {
           className="cross"
         >
           X
+          
         </button>
 
         Lorem ipsum dolor sit amet consectetur adipisicing elit.
