@@ -1,0 +1,33 @@
+.container{
+  width:600px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 5px;
+  margin: auto;
+  height: 50vh;
+  gap:10px;
+}
+.tabContainer{
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  display: flex;
+}
+button{
+  border: none;
+  margin: 10px;
+  background-color: transparent;
+}
+.active{
+  color: blue;
+ border-bottom: 1px solid black;
+ padding-bottom: 1px;
+  
+}
+.tabsdata
+{
+  
+}
