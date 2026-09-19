@@ -1,78 +1,42 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React,{useState,useRef} from 'react';
 
-const Grid = ({ size }) => {
-  const [grid, setGrid] = useState(() =>
-    Array.from({ length: size }, () => new Array(size).fill(false))
-  )
 
-  const [running, setRunning] = useState(false)
-  const cellRef = useRef([])
 
-  function clickHandler(row, col) {
-    if (running) return
-
-    if (
-      cellRef.current.find(
-        (item) => item.row === row && item.col === col
-      )
-    ) {
-      return
+const Grid = ({size}) => {
+  const nextRef=useRef("O");
+  const [cell,setCell]=useState(()=>Array.from({length:size},(item)=>new Array(size).fill("")));
+  console.log(cell);
+  function clickHandler(r,c){
+    if(cell[r][c]!==""){
+      return;
     }
+    const newCell=cell.map((item,row)=>item.map((colItem,col)=>row===r && col===c ? nextRef.current:colItem ));
+                  nextRef.current= nextRef.current==="O"?"X":"O";
 
-    cellRef.current.push({ row, col })
 
-    setGrid((prev) => {
-      const newGrid = prev.map((row) => [...row])
-      newGrid[row][col] = true
-      return newGrid
-    })
+    setCell(
+      newCell
+    )
 
-    // All cells clicked
-    if (cellRef.current.length === size * size) {
-      setRunning(true)
-    }
   }
-
-  useEffect(() => {
-    if (!running) return
-
-    const interval = setInterval(() => {
-      const cell = cellRef.current.shift()
-
-      if (!cell) {
-        clearInterval(interval)
-        setRunning(false)
-        return
+  function isGameOver(){
+    
+  }
+  function resetHandler(){
+    nextRef.current="O";
+    setCell(()=>Array.from({length:size},(item)=>new Array(size).fill("")));
+  }
+  return (
+    <>
+    <div className='Grid'>
+      {
+        cell.map((rowItem,r)=>rowItem.map((colItem,c)=><div onClick={()=>clickHandler(r,c)} className='cell' key={`${r}`+`${c}`}>{colItem}</div>))
       }
 
-      setGrid((prev) => {
-        const newGrid = prev.map((row) => [...row])
-        newGrid[cell.row][cell.col] = false
-        return newGrid
-      })
-    }, 500)
-
-    return () => clearInterval(interval)
-  }, [running])
-
-  return (
-    <div
-      className="Grid"
-      style={{
-        gridTemplateColumns: `repeat(${size}, 1fr)`
-      }}
-    >
-      {grid.map((row, rowIndex) =>
-        row.map((cell, colIndex) => (
-          <button
-            key={`${rowIndex}-${colIndex}`}
-            disabled={running}
-            onClick={() => clickHandler(rowIndex, colIndex)}
-            className={`cell ${cell ? 'active' : ''}`}
-          />
-        ))
-      )}
     </div>
+        <p style={{"marginTop":"10px"}}>next move:{nextRef.current}</p>
+        <button onClick={resetHandler}>Reset</button>
+        </>
   )
 }
 
