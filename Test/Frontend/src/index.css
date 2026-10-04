@@ -6,7 +6,6 @@
 }
 .Grid{
   display: grid;
-  grid-template-columns: repeat(3,1fr);
   gap:2px;
 }
 .cell{
@@ -19,6 +18,9 @@
   
   
 }
-.active {
+.snake {
   background-color: green;
+}
+.food{
+  background-color: crimson;
 }

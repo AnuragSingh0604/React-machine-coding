@@ -1,6 +1,7 @@
 const redux=require("redux");
 const createStore=redux.createStore;
 const bindActionCreators=redux.bindActionCreators;
+const combineReducers=redux.combineReducers;
 const BUY_CAKE='BUY_CAKE';
 const CAKE_RESTOCKED='CAKE_RESTOCKED';
 function buyCake(){
@@ -45,3 +46,9 @@ actions.orderCake();
 actions.orderCake();
 actions.restockCake(3);
 unsubscribe();
+// const rootReducer=combineReducers(
+//     {
+//         cake:cakeReducer,
+//         iceCream:iceCreamReducer,
+//     }
+// )

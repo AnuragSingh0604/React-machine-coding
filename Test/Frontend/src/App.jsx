@@ -1,7 +1,7 @@
 import React from 'react'
 import Grid from './component/Grid'
 
-const App = ({size=20}) => {
+const App = ({size=10}) => {
   return (
     <div className='container'>
       <Grid size={size} />
