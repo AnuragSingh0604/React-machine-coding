@@ -1,26 +1,29 @@
 .container{
-  width:200px;
-  margin: 20px auto;
-  
-
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+  margin: 10px auto;
 }
-.Grid{
-  display: grid;
-  gap:2px;
-}
-.cell{
-  width:  50px;
-  height: 50px;
-  border: 1px solid black;
+.comment{
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  color: black;
+  padding: 10px;
+  
+.btnCon {
+  display: flex;
   justify-content: center;
-  
-  
+  align-items: center;
+  gap: 10px;
+  position: relative;
 }
-.snake {
-  background-color: green;
-}
-.food{
-  background-color: crimson;
+
+.replyBox {
+  position: absolute;
+  top: 100%;
+  left: 10px;
+  margin-top: 10px;
+  z-index: 10;
 }

@@ -1,11 +1,16 @@
+import { useState } from 'react'
 import React from 'react'
-import Grid from './component/Grid'
+import { Comment } from './component/Comment'
+import AllComment from './data'
 
-const App = ({size=10}) => {
+const App = () => {
+  const [allComments,setAllComments]=useState(AllComment.comments);
+  const rootComments=Object.values(allComments).filter( comment => !comment.parentId )
   return (
-    <div className='container'>
-      <Grid size={size} />
-
+    <div className='container'>{
+      rootComments.map((item)=> <Comment comment={item} key={item.id } allComments={allComments}></Comment>)
+      }
+      
     </div>
   )
 }
