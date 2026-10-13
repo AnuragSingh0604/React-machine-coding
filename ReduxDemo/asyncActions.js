@@ -1,5 +1,8 @@
 const redux=require("redux");
 const createStore=redux.createStore;
+const axios=require("axios");
+const thunkMiddleware=require('redux-thunk').default;
+const applyMiddleware=redux.applyMiddleware;
 const intialState={
     loading:false,
     users:[],
@@ -46,4 +49,13 @@ const reducer=(state=intialState,action)=>{
             }
     }
 }
-const store=createStore(reducer);
+const fetchUsers=()=>{
+    return function(dispatch){
+        dispatch(fetchUsersRequest());
+        axios.get();
+        dispatch(fetchUsersSuccess());
+        dispatch(fetchUsersFailure());
+    }
+}
+const store=createStore(reducer,applyMiddleware(thunkMiddleware));
+store.dispatch(fetchUsers());
