@@ -8,7 +8,7 @@ const App = () => {
   const rootComments=Object.values(allComments).filter( comment => !comment.parentId )
   return (
     <div className='container'>{
-      rootComments.map((item)=> <Comment comment={item} key={item.id } allComments={allComments}></Comment>)
+      rootComments.map((item)=> <Comment setAllComments={setAllComments} comment={item} key={item.id } allComments={allComments}></Comment>)
       }
       
     </div>
