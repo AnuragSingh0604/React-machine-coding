@@ -1,29 +1,20 @@
-.container{
+.container {
   display: flex;
   flex-direction: column;
-  width: 700px;
-  margin: 10px auto;
-}
-.comment{
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 20px;
-  color: black;
-  padding: 10px;
-  
-.btnCon {
-  display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  position: relative;
 }
 
-.replyBox {
-  position: absolute;
-  top: 100%;
-  left: 10px;
-  margin-top: 10px;
-  z-index: 10;
+.circle {
+  width: 60px;
+  height: 60px;
+  border: 1px solid black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
 }
