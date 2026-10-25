@@ -1,29 +1,22 @@
-import React, { useState, useEffect } from "react";
-import Light from "./component/Light";
+import React,{useContext} from 'react'
+import dataContext from './Context/dataContext';
+import Folder from './component/Folder';
+import File from './component/File';
 
 const App = () => {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setIndex((prev)=>((prev+1)%3))
-    }, 3000);
-
-    return () => clearInterval(id);
-  }, []);
+  const {data}=useContext(dataContext);
+  const rootFolder=Object.values(data).filter(item=>item.parentId===null)
+  console.log(rootFolder);
 
   return (
-    <div className="container">
-      {[0, 1, 2].map((i) => (
-        <Light
-          key={i}
-          item={i}
-          activeIndex={index}
-         
-        />
-      ))}
-    </div>
-  );
-};
+    <div className='container'>
+      {
+        rootFolder.map((item)=>item.type==="folder"?<Folder key={item.id} item={item}></Folder>:<File key={item.id} item={item}></File>)
+      }
 
-export default App;
+    
+    </div>
+  )
+}
+
+export default App

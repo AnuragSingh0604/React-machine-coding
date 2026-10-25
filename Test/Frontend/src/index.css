@@ -1,20 +1,32 @@
-.container {
+.container{
   display: flex;
+ 
+  justify-content: center;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
 }
-
-.circle {
-  width: 60px;
-  height: 60px;
-  border: 1px solid black;
-  border-radius: 50%;
+.folder{
+  height: 20px;
   display: flex;
-  justify-content: center;
+  margin-bottom: 10px;
+  justify-content: flex-start;
   align-items: center;
-  color: white;
-  font-size: 22px;
-  font-weight: bold;
+  gap: 3px;
+}
+.file{
+  height: 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 3px;
+  margin-bottom: 10px;
+}
+img{
+  height: 100%;
+  width:20px
+}
+.btn{
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
 }

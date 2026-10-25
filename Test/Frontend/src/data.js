@@ -1,41 +1,41 @@
-const AllComments = {
-  comments: {
+const fileData = {
+  items: {
     "1": {
       id: "1",
+      name: "src",
+      type: "folder",
       parentId: null,
-      author: "Anurag",
-      text: "This is the first root comment",
       children: ["2", "3"]
     },
     "2": {
       id: "2",
+      name: "components",
+      type: "folder",
       parentId: "1",
-      author: "Rahul",
-      text: "Reply to first comment",
-      children: ["4"]
+      children: ["5"]
     },
     "3": {
       id: "3",
+      name: "App.js",
+      type: "file",
       parentId: "1",
-      author: "Priya",
-      text: "Another reply to first comment",
       children: []
     },
     "4": {
       id: "4",
-      parentId: "2",
-      author: "Karan",
-      text: "Reply to Rahul",
+      name: "package.json",
+      type: "file",
+      parentId: null,
       children: []
     },
     "5": {
       id: "5",
-      parentId: null,
-      author: "Sneha",
-      text: "Second root comment",
+      name: "CommentBox.jsx",
+      type: "file",
+      parentId: "2",
       children: []
     }
   }
 };
 
-export default AllComments;
+export default fileData;
