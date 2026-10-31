@@ -11,6 +11,15 @@ const cakeSlice=createSlice({
         },
         reStocked:(state,action)=>{
           state.numOfCakes+=action.payload
+        },
+        extraReducers:{
+            ['icecream/orderedd']:(state)=>{
+                state.numOfIcecreams--
+            }
+        },extraReducers:(builder)=>{
+            builder.addCase(cakeActions.ordered,(state)=>{
+                state.numOfIcecreams--
+            })
         }
     }
 })
