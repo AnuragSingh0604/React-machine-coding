@@ -4,9 +4,11 @@ import File from './File';
 
 const Folder = ({item}) => {
   const [isOpened, setIsOpened] = useState(false);
-    const {data,addData}=useContext(dataContext);
+    const {data,addData,editData}=useContext(dataContext);
     const [isAdding,setIsAdding]=useState(false);
+    const [isEditing,setIsEditing]=useState(false);
     const [inputValue,setInputValue]=useState("");
+    const [editInputValue,setEditInputValue]=useState(item.name);
     function addHandler(){
         let input=inputValue.trim();
         if(!input){
@@ -19,6 +21,22 @@ const type = isFile ? "file" : "folder";
        setIsOpened(true);
        setIsAdding(false);
        return;
+
+
+    }
+    function editHandler(){
+      let input=editInputValue.trim();
+      if(!input || input===item.name){
+            return;
+        }
+        const isFile = input.includes(".");
+const type = isFile ? "file" : "folder";
+       editData(input,type,item.id);
+       setEditInputValue("");
+       setIsOpened(true);
+       setIsEditing(false);
+       return;
+
 
 
     }
@@ -38,7 +56,7 @@ const type = isFile ? "file" : "folder";
       <div className='btn'>
         <button onClick={()=>setIsAdding(!isAdding)}>add</button>
         
-          <button>edit</button>
+          <button onClick={()=>setIsEditing(!isEditing)}>edit</button>
            <button>delete</button>
       </div>
 
@@ -48,6 +66,9 @@ const type = isFile ? "file" : "folder";
     }
     {
         isAdding && <div className='input'><input  value={inputValue} onChange={(e)=>setInputValue(e.target.value)}></input> <button onClick={addHandler}>submit</button></div>
+    }
+    {
+        isEditing && <div className='input'><input  value={editInputValue} onChange={(e)=>setEditInputValue(e.target.value)}></input> <button onClick={editHandler}>submit</button></div>
     }
     </>
   );

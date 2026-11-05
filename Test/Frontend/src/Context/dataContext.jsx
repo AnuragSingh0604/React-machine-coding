@@ -39,8 +39,39 @@ export const DataContextProvider = ({ children }) => {
     return newdata;
   });
 }
+function editData(newItem, type, id) {
+  setdata((prev) => {
+    if (!prev[id]) return prev;
+
+    const newdata = structuredClone(prev);
+
+    // If folder is becoming a file
+    if (type === "file") {
+      function deleteChildren(parentId) {
+        const children = newdata[parentId].children;
+
+        for (const childId of children) {
+          deleteChildren(childId);
+          delete newdata[childId];
+        }
+      }
+
+      deleteChildren(id);
+    }
+
+    newdata[id] = {
+      ...newdata[id],
+      name: newItem,
+      type,
+      children: type === "file" ? [] : newdata[id].children
+    };
+
+    return newdata;
+  });
+}
+  
   return (
-    <dataContext.Provider value={{data,addData}}>
+    <dataContext.Provider value={{data,addData,editData}}>
       {children}
     </dataContext.Provider>
   );
