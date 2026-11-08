@@ -4,7 +4,7 @@ import File from './File';
 
 const Folder = ({item}) => {
   const [isOpened, setIsOpened] = useState(false);
-    const {data,addData,editData}=useContext(dataContext);
+    const {data,addData,editData,deleteData}=useContext(dataContext);
     const [isAdding,setIsAdding]=useState(false);
     const [isEditing,setIsEditing]=useState(false);
     const [inputValue,setInputValue]=useState("");
@@ -40,6 +40,7 @@ const type = isFile ? "file" : "folder";
 
 
     }
+    
 
 
   return (
@@ -56,13 +57,29 @@ const type = isFile ? "file" : "folder";
       <div className='btn'>
         <button onClick={()=>setIsAdding(!isAdding)}>add</button>
         
-          <button onClick={()=>setIsEditing(!isEditing)}>edit</button>
-           <button>delete</button>
+<button
+  onClick={() => {
+    if (!isEditing) {
+      setEditInputValue(item.name);
+    }
+    setIsEditing(prev => !prev);
+  }}
+>
+  edit
+</button>           <button onClick={()=>deleteData(item.id)}>delete</button>
       </div>
 
     </div>
     {
-       isOpened && item.children.map((child)=> data[child].type==="folder"?<Folder key={data[child].id} item={data[child]}></Folder>:<File key={data[child].id} item={data[child]}></File>)
+       isOpened && item.children.map((child) => {
+  const childItem = data[child];
+
+  if (!childItem) return null;
+
+  return childItem.type === "folder"
+    ? <Folder key={childItem.id} item={childItem} />
+    : <File key={childItem.id} item={childItem} />;
+})
     }
     {
         isAdding && <div className='input'><input  value={inputValue} onChange={(e)=>setInputValue(e.target.value)}></input> <button onClick={addHandler}>submit</button></div>
