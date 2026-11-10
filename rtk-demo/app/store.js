@@ -4,7 +4,7 @@ const userReducers=require('../features/user/userSlice');
 const logger=ReduxLogger.createLogger();
 const store=configureStore({
     reducer:{
-        cakke:cakeReducer,
+        cake:cakeReducer,
         user:userReducers,
     },
     middleware:(getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
